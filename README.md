@@ -133,6 +133,43 @@ Coming Soon
 #### Layout
 #### Controls
 
+##### Custom Controls
+
+A custom control can be added, for example if you need to pass an ActiveRecord instance to a component:
+
+```ruby
+class UserAccountComponentStories < ViewComponent::Storybook::Stories
+  class RoleConfig < ViewComponent::Storybook::Controls::ControlConfig
+    ROLES = {
+      admin: "Admin user"
+      guest: "Guest user"
+      default: "Default user"
+    }
+
+    validates :value, inclusion: { in: ROLES.values }
+
+    def type
+      :select
+    end
+
+    def value_from_param(param)
+      User.with_role(param).first!
+    end
+
+    private
+
+    def csf_control_params
+      super.merge(options: ROLES)
+    end
+  end
+
+  story(:default) do
+    controls do
+      controls << RoleConfig.new(component, :user, 'admin')
+    end
+  end
+end
+```
 
 ## Development
 
