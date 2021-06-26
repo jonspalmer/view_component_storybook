@@ -13,9 +13,11 @@ module ViewComponent
         end
 
         def controls(&block)
-          controls_dsl = ControlsDsl.new(story_config.component)
-          controls_dsl.instance_eval(&block)
-          @story_config.controls = controls_dsl.controls
+          controls_dsl = ViewComponent::Storybook::Dsl::ControlsDsl.new(story_config.component)
+          @story_config.controls_block = -> {
+            controls_dsl.instance_eval(&block)
+            controls_dsl.controls
+          }
         end
 
         def layout(layout)

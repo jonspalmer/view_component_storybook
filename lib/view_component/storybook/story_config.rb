@@ -6,7 +6,7 @@ module ViewComponent
       include ActiveModel::Validations
 
       attr_reader :id, :name, :component
-      attr_accessor :controls, :parameters, :layout, :content_block
+      attr_accessor :controls_block, :parameters, :layout, :content_block
 
       validate :valid_controls
 
@@ -15,7 +15,12 @@ module ViewComponent
         @name = name
         @component = component
         @layout = layout
-        @controls = []
+        @controls = nil
+        @controls_block = -> { [] }
+      end
+
+      def controls
+        @controls ||= @controls_block.call
       end
 
       def to_csf_params
