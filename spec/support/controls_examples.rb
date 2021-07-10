@@ -12,7 +12,7 @@ shared_examples "a controls config" do
   end
 
   describe "#name" do
-    it "by default is dereived from the param" do
+    it "by default is derived from the param" do
       expect(subject.name).to eq("Button Text")
     end
 

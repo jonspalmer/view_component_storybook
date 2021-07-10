@@ -12,6 +12,10 @@ module ViewComponent
       validate :valid_story_configs
 
       class << self
+        def stories_title(title = nil)
+          self.title = title unless title.nil?
+        end
+
         def story(name, component = default_component, &block)
           story_config = StoryConfig.configure(story_id(name), name, component, layout, &block)
           story_configs << story_config

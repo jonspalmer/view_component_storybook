@@ -151,6 +151,26 @@ RSpec.describe ViewComponent::Storybook::Stories do
       )
     end
 
+    it "converts Stories with customer Stories title" do
+      expect(Demo::HeadingComponentStories.to_csf_params).to eq(
+        title: "Heading Component",
+        stories: [
+          {
+            name: :default,
+            parameters: {
+              server: { id: "demo/heading_component/default" }
+            },
+            args: {
+              heading_text: "Heading"
+            },
+            argTypes: {
+              heading_text: { control: { type: :text }, name: "Heading Text" }
+            }
+          }
+        ]
+      )
+    end
+
     it "converts Stories with parameters" do
       expect(ParametersStories.to_csf_params).to eq(
         title: "Parameters",
@@ -199,11 +219,11 @@ RSpec.describe ViewComponent::Storybook::Stories do
       )
     end
 
-    it "raises an excpetion if stories are invalid" do
+    it "raises an exception if stories are invalid" do
       expect { Invalid::DuplicateStoryStories.to_csf_params }.to raise_exception(ActiveModel::ValidationError)
     end
 
-    it "raises an excpetion if a story_config is invalid" do
+    it "raises an exception if a story_config is invalid" do
       expect { Invalid::DuplicateControlsStories.to_csf_params }.to raise_exception(ActiveModel::ValidationError)
     end
   end
@@ -250,6 +270,7 @@ RSpec.describe ViewComponent::Storybook::Stories do
       expect(described_class.all).to eq [
         ContentComponentStories,
         Demo::ButtonComponentStories,
+        Demo::HeadingComponentStories,
         Invalid::DuplicateControlsStories,
         Invalid::DuplicateStoryStories,
         KitchenSinkComponentStories,
