@@ -64,6 +64,12 @@ module ViewComponent
           Controls::CustomConfig.new.with_value(*args, **kwargs, &block)
         end
 
+        def klazz(value_class, *args, **kwargs)
+          Controls::CustomConfig.new.with_value(*args, **kwargs) do |*a, **kwa|
+            value_class.new(*a, **kwa)
+          end
+        end
+
         Controls = ViewComponent::Storybook::Controls
       end
     end

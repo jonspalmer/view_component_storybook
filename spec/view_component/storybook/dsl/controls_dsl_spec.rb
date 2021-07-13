@@ -142,4 +142,43 @@ RSpec.describe ViewComponent::Storybook::Dsl::ControlsDsl do
                        }
     end
   end
+
+  describe "#custom" do
+    subject do
+      custom(first_name: "J.R.R.", last_name: "Tolkien") do |first_name:, last_name:|
+        Author.new(first_name: first_name, last_name: last_name).full_name
+      end.param(:author)
+    end
+
+    include_examples "has controls attributes",
+                     {
+                       class: ViewComponent::Storybook::Controls::CustomConfig,
+                       param: :author,
+                       name: "Author"
+                     }
+
+    it "returns cutom value from params" do
+      from_params = subject.value_from_params({})
+      expect(from_params).to eq("J.R.R. Tolkien")
+    end
+  end
+
+  describe "#klazz" do
+    subject do
+      klazz(Author, first_name: "J.R.R.", last_name: "Tolkien").param(:author)
+    end
+
+    include_examples "has controls attributes",
+                     {
+                       class: ViewComponent::Storybook::Controls::CustomConfig,
+                       param: :author,
+                       name: "Author"
+                     }
+
+    it "returns cutom value from params" do
+      from_params = subject.value_from_params({})
+      expect(from_params).to be_a(Author)
+      expect(from_params.full_name).to eq("J.R.R. Tolkien")
+    end
+  end
 end
