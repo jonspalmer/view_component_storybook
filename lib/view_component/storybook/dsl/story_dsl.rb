@@ -15,6 +15,7 @@ module ViewComponent
         end
 
         def controls(&block)
+          ActiveSupport::Deprecation.warn("`controls` will be removed in v1.0.0. Use `#constructor` instead.")
           controls_dsl = LegacyControlsDsl.new
           controls_dsl.instance_eval(&block)
 

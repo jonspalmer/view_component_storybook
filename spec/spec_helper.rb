@@ -10,6 +10,8 @@ require "action_controller"
 ENV["RAILS_ENV"] = "test"
 require File.expand_path("dummy/config/environment.rb", __dir__)
 
+ActiveSupport::Deprecation.silenced = true
+
 require "rspec/expectations"
 require "rspec/rails"
 require 'simplecov'
